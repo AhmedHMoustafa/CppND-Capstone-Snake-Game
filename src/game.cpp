@@ -101,12 +101,12 @@ bool Game::containsRedFood(int x, int y){
 }
 
 void Game::Update() {
-  if (!snake.alive) return;
+  if (!snake.getAlive()) return;
 
   snake.Update();
 
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  int new_x = static_cast<int>(snake.getHead_x());
+  int new_y = static_cast<int>(snake.getHead_y());
 
   // Check if there's food over here
   // if (containsFood(new_x, new_y) || containsRedFood(new_x, new_y)) {
@@ -129,8 +129,10 @@ void Game::Update() {
   if(containsFood(new_x, new_y)){
       score++;
       snake.GrowBody();
-      snake.speed += 0.02;
+      snake.increaseSpeed(0.02);
       PlaceFood();
+
+      //If score is a multiple of 5, add a red food
       if(score > 0 && score%5==0){
         PlaceRedFood(); 
         renderRed = true;
@@ -140,7 +142,7 @@ void Game::Update() {
     }else if(containsRedFood(new_x, new_y)){
       score++;
       snake.GrowBody();
-      snake.speed -= 0.02;
+      snake.decreaseSpeed(0.02);
       renderRed = false;
 
       //place red food out of frame/grid
@@ -150,4 +152,4 @@ void Game::Update() {
 }
 
 int Game::GetScore() const { return score; }
-int Game::GetSize() const { return snake.size; }
+int Game::GetSize() const { return snake.getSize(); }
