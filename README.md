@@ -30,18 +30,34 @@ In this project, a C++ Snake game is extended, following the principles taught t
 
 ## Class Structure 
 
-📦src
- ┣ 📜ThreadObject.cpp
- ┣ 📜ThreadObject.h
- ┣ 📜controller.cpp
- ┣ 📜controller.h
- ┣ 📜game.cpp
- ┣ 📜game.h
- ┣ 📜main.cpp
- ┣ 📜renderer.cpp
- ┣ 📜renderer.h
- ┣ 📜snake.cpp
- ┗ 📜snake.h
+
+### CppND-Capstone-Snake-Game
+
+* [.vscode/](./CppND-Capstone-Snake-Game/.vscode)
+  * [c_cpp_properties.json](./CppND-Capstone-Snake-Game/.vscode/c_cpp_properties.json)
+  * [settings.json](./CppND-Capstone-Snake-Game/.vscode/settings.json)
+* [cmake/](./CppND-Capstone-Snake-Game/cmake) 
+  * [FindSDL2_image.cmake](./CppND-Capstone-Snake-Game/cmake/FindSDL2_image.cmake)
+* [src/](./CppND-Capstone-Snake-Game/src)
+  * [ThreadObject.cpp](./CppND-Capstone-Snake-Game/src/ThreadObject.cpp)
+  * [ThreadObject.h](./CppND-Capstone-Snake-Game/src/ThreadObject.h)
+  * [controller.cpp](./CppND-Capstone-Snake-Game/src/controller.cpp)
+  * [controller.h](./CppND-Capstone-Snake-Game/src/controller.h)
+  * [game.cpp](./CppND-Capstone-Snake-Game/src/game.cpp)
+  * [game.h](./CppND-Capstone-Snake-Game/src/game.h)
+  * [main.cpp](./CppND-Capstone-Snake-Game/src/main.cpp)
+  * [renderer.cpp](./CppND-Capstone-Snake-Game/src/renderer.cpp)
+  * [renderer.h](./CppND-Capstone-Snake-Game/src/renderer.h)
+  * [snake.cpp](./CppND-Capstone-Snake-Game/src/snake.cpp)
+  * [snake.h](./CppND-Capstone-Snake-Game/src/snake.h)
+* [.gitignore](./CppND-Capstone-Snake-Game/.gitignore)
+* [CMakeLists.txt](./CppND-Capstone-Snake-Game/CMakeLists.txt) (updated to include multithreading and new classes)
+* [CODEOWNERS](./CppND-Capstone-Snake-Game/CODEOWNERS)
+* [LICENSE.md](./CppND-Capstone-Snake-Game/LICENSE.md)
+* [README.md](./CppND-Capstone-Snake-Game/README.md)
+* [snake_game.gif](./CppND-Capstone-Snake-Game/snake_game.gif)
+
+
 
 ## CC Attribution-ShareAlike 4.0 International
 
