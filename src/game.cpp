@@ -7,7 +7,6 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
-  //snake = Snake(grid_width, grid_height);
   PlaceFood();
 }
 
@@ -19,12 +18,12 @@ void Game::runThread(){
 
 void Game::Run(Controller &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
+
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  // bool running = true;
 
   desired_frame_duration = target_frame_duration;
 
@@ -35,16 +34,12 @@ void Game::Run(Controller &controller, Renderer &renderer,
   
   // Run thread to update game engine
   runThread(); 
-  //std::cout << "hi";
 
   while (getRunning()) {
 
-    // std::cout << "hi";
     frame_start = SDL_GetTicks();
 
-    // Input, Update, Render - the main game loop.
-    // controller.HandleInput();
-    // Update();
+    // Loop on the renderer
     renderer.Render(snake, food, redFood, renderRed);
 
     frame_end = SDL_GetTicks();
@@ -140,14 +135,11 @@ void Game::Update() {
 
     snake.Update();
 
+    // Save current snake head position
     int new_x = static_cast<int>(snake.getHead_x());
     int new_y = static_cast<int>(snake.getHead_y());
 
-    // Lock the food resources before using them [CC]
-    // std::unique_lock<std::mutex> lckFood(_mtxFood);  
-    // std::unique_lock<std::mutex> lckRedFood(_mtxRedFood);
-    // std::unique_lock<std::mutex> lckRenderRed(_mtxRenderRed);
-
+    // If snake head is at food; increase score, grow body, change speed and place new food
     if(containsFood(new_x, new_y)){
         score++;
         snake.GrowBody();
@@ -171,11 +163,6 @@ void Game::Update() {
       redFood.x =34;
       redFood.y =34;
     }
-    
-    // Unlock resources after done using them
-    // lckRenderRed.unlock();
-    // lckFood.unlock();
-    // lckRedFood.unlock();
     lckSnake.unlock();
 
     frame_end = SDL_GetTicks();

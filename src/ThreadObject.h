@@ -13,36 +13,28 @@ class ThreadObject {
 
  public:
 
-    ~ThreadObject();
-    // ~ThreadObject(){
-    //     std::for_each(threads.begin(), threads.end(), [](std::thread &t) { t.join();});
-    // }
+   // Destructor
+   ~ThreadObject();
 
-    virtual void runThread()=0;
+   // Creates and runs the thread in a vector
+   virtual void runThread()=0;
 
-    bool getRunning() const;
-    void setRunning(bool b);
-
-    void setSnake(Snake s);
-    void setDesFrame(std::size_t s);
+   // Getters and Setters
+   bool getRunning() const;
+   void setRunning(bool b);
+   void setSnake(Snake s);
+   void setDesFrame(std::size_t s);
 
  protected:
-    std::vector<std::thread> threads;
-    static std::mutex _mtxSnake;
-    // static std::mutex _mtxFood;
-    // static std::mutex _mtxRedFood;
-    // static std::mutex _mtxRenderRed;
-    static std::mutex _mtxRunning;
 
-    static std::size_t desired_frame_duration;
-    static Snake snake;
-    static bool running;
+   std::vector<std::thread> threads;
+   static std::mutex _mtxSnake;  // Mutex to lock Snake resource shared b/w Game & Controller
+   static std::mutex _mtxRunning;// Mutex to lock Running flag resource shared b/w Game & Controller
 
-
- private:
-    
-
-
+   //Resources shared b/w Game & Controller
+   static std::size_t desired_frame_duration;
+   static Snake snake;
+   static bool running;
 
 
 };

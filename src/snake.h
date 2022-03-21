@@ -28,7 +28,7 @@ class Snake {
   // Check if snake contains given coordinates
   bool SnakeCell(int const &x, int const &y);
 
-  /*Getters and Setters [OOP]*/ 
+  //Getters and Setters [OOP] 
   
   Direction getDirection() const;
   void setDirection(Direction k);

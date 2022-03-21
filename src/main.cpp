@@ -13,16 +13,19 @@ int main() {
   constexpr std::size_t kGridHeight{32};
 
 
-  // Initialize Renderer, Controller, Game objects
+  // Initialize Renderer, Controller & Game objects
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
   Game game(kGridWidth, kGridHeight);
 
-  // Set the static parameters
+  // Set the static parameters for game and controller
   game.setSnake(Snake(kGridWidth, kGridHeight));
   game.setDesFrame(kMsPerFrame);
 
+  // Run game
   game.Run(controller, renderer, kMsPerFrame);
+
+  // Print out when game ends
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";

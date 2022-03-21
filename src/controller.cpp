@@ -6,7 +6,7 @@
 void Controller::ChangeDirection(Snake::Direction input,
                                  Snake::Direction opposite) const {
                                    
-  std::unique_lock<std::mutex> lckSnake(_mtxSnake);
+  std::unique_lock<std::mutex> lckSnake(_mtxSnake); // Lock snake resource before using it
   if (snake.getDirection() != opposite || snake.getSize() == 1) snake.setDirection(input);
   lckSnake.unlock();
   return;
@@ -16,10 +16,11 @@ void Controller::HandleInput() const {
   SDL_Event e;
   while (SDL_PollEvent(&e)) {
     if (e.type == SDL_QUIT) {
-      // running = false;
-      std::unique_lock<std::mutex> lckRunning(_mtxRunning);
+
+      std::unique_lock<std::mutex> lckRunning(_mtxRunning); // Lock running flag resource before changing
       running = false;
       lckRunning.unlock();
+
     } else if (e.type == SDL_KEYDOWN) {
       switch (e.key.keysym.sym) {
         case SDLK_UP:
@@ -47,15 +48,13 @@ void Controller::HandleInput() const {
 }
 
 void Controller::updateController(){
-
-  //////////////////////////////
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
 
   while (getRunning()){
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1)); // Reduce CPU usage by sleeping for 1 millisecond every iteration
 
     frame_start = SDL_GetTicks();
     Controller::HandleInput();

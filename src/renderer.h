@@ -12,26 +12,20 @@ class Renderer {
  public:
   Renderer(const std::size_t screen_width, const std::size_t screen_height,
            const std::size_t grid_width, const std::size_t grid_height);
+
   ~Renderer();
 
   // Renders snake and food
   void Render(Snake const snake, SDL_Point const &food, SDL_Point const &redFood, bool &renderRed);
-  // Updates score adn FPS in window title 
+
+  // Updates score and FPS in window title 
   void UpdateWindowTitle(int score, int fps);
-
-  // void UpdateRender();
-
-  // Renders in a thread [CC]
-  // void runThread() override;
 
  private:
 
   // Shared pointers instead of raw pointers (functionality in .cpp file changed accordingly) [MM]
   std::shared_ptr<SDL_Window> sdl_window;
   std::shared_ptr<SDL_Renderer> sdl_renderer;
-  
-  // SDL_Window *sdl_window;
-  // SDL_Renderer *sdl_renderer;
 
   const std::size_t screen_width;
   const std::size_t screen_height;

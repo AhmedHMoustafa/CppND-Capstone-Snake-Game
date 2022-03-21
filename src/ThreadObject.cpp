@@ -1,11 +1,7 @@
 #include "ThreadObject.h"
 
 std::mutex ThreadObject::_mtxSnake;
-// std::mutex ThreadObject::_mtxFood;
-// std::mutex ThreadObject::_mtxRedFood;
-// std::mutex ThreadObject::_mtxRenderRed;
 std::mutex ThreadObject::_mtxRunning;
-
 Snake ThreadObject::snake;
 std::size_t ThreadObject::desired_frame_duration;
 bool ThreadObject::running;
@@ -23,6 +19,7 @@ bool ThreadObject::getRunning() const{
 
 void ThreadObject::setRunning(bool b){
 
+    // Lock before writing data
     std::unique_lock<std::mutex> lckRunning(_mtxRunning);
     running = b;
     lckRunning.unlock();
