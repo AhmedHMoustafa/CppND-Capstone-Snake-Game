@@ -3,7 +3,8 @@
 This project was built upon a starter repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). The code for this repo was inspired by [this](https://codereview.stackexchange.com/questions/212296/snake-game-in-c-with-sdl) excellent StackOverflow post and set of responses.
 
 In this project, a C++ Snake game is extended, following the principles taught throughout this Nanodegree Program using a wide range of C++ features.
-* Enhanced classes with OOP in mind.
+My contribution:
+* Enhanced the classes with OOP in mind.
 * Better memory managment by incorporating Smart Pointers & making use of references.
 * Incoporated Multithreading and Mutex locks
 * Code Documentation
