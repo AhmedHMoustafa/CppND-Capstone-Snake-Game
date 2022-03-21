@@ -30,7 +30,18 @@ In this project, a C++ Snake game is extended, following the principles taught t
 
 ## Class Structure 
 
-
+📦src
+ ┣ 📜ThreadObject.cpp
+ ┣ 📜ThreadObject.h
+ ┣ 📜controller.cpp
+ ┣ 📜controller.h
+ ┣ 📜game.cpp
+ ┣ 📜game.h
+ ┣ 📜main.cpp
+ ┣ 📜renderer.cpp
+ ┣ 📜renderer.h
+ ┣ 📜snake.cpp
+ ┗ 📜snake.h
 
 ## CC Attribution-ShareAlike 4.0 International
 
