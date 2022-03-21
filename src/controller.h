@@ -2,13 +2,18 @@
 #define CONTROLLER_H
 
 #include "snake.h"
+#include "ThreadObject.h"
 
-class Controller {
+class Controller : public ThreadObject {
  public:
-  void HandleInput(bool &running, Snake &snake) const;
+  void HandleInput() const;
+
+  void runThread() override;
+
+  void updateController();
 
  private:
-  void ChangeDirection(Snake &snake, Snake::Direction input,
+  void ChangeDirection(Snake::Direction input,
                        Snake::Direction opposite) const;
 };
 

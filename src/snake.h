@@ -8,11 +8,16 @@ class Snake {
  public:
   enum class Direction { kUp, kDown, kLeft, kRight };
 
+  Snake(){
+    
+  }
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
         grid_height(grid_height),
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
+  
+  
 
   // Update snake position
   void Update();

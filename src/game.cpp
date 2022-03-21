@@ -3,28 +3,48 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+    : 
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)) {
+  //snake = Snake(grid_width, grid_height);
   PlaceFood();
 }
 
-void Game::Run(Controller const &controller, Renderer &renderer,
+void Game::runThread(){
+
+  threads.emplace_back(std::thread(&Game::Update,this));
+
+}
+
+void Game::Run(Controller &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  bool running = true;
+  // bool running = true;
 
-  while (running) {
+  desired_frame_duration = target_frame_duration;
+
+  running = true;
+
+  // Run thread for input control
+  controller.runThread();
+  
+  // Run thread to update game engine
+  runThread(); 
+  //std::cout << "hi";
+
+  while (getRunning()) {
+
+    // std::cout << "hi";
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
-    Update();
+    // controller.HandleInput();
+    // Update();
     renderer.Render(snake, food, redFood, renderRed);
 
     frame_end = SDL_GetTicks();
@@ -101,54 +121,72 @@ bool Game::containsRedFood(int x, int y){
 }
 
 void Game::Update() {
-  if (!snake.getAlive()) return;
 
-  snake.Update();
+  Uint32 frame_start;
+  Uint32 frame_end;
+  Uint32 frame_duration;
+  int frame_count = 0;
 
-  int new_x = static_cast<int>(snake.getHead_x());
-  int new_y = static_cast<int>(snake.getHead_y());
+  while(getRunning()){
 
-  // Check if there's food over here
-  // if (containsFood(new_x, new_y) || containsRedFood(new_x, new_y)) {
-  //   score++;
-  //   snake.GrowBody();
-  //   if(score%5==0){
-  //     PlaceRedFood();
-  //     renderRed = true;
+    // Reduce CPU usage by sleeping for 1 millisecond every iteration
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-  //   }else{
-  //     PlaceFood();
-  //     snake.speed += 0.02;
-  //   }
+    frame_start = SDL_GetTicks();
 
-  //   // Grow snake and increase speed.
-  //   //snake.GrowBody();
-  //   //snake.speed += 0.02;
-  // }
+    std::unique_lock<std::mutex> lckSnake(_mtxSnake); // Lock the snake resource before using it [CC]
+  
+    if (!snake.getAlive()) return;
 
-  if(containsFood(new_x, new_y)){
-      score++;
-      snake.GrowBody();
-      snake.increaseSpeed(0.02);
-      PlaceFood();
+    snake.Update();
 
-      //If score is a multiple of 5, add a red food
-      if(score > 0 && score%5==0){
-        PlaceRedFood(); 
-        renderRed = true;
-      }
-      
-      
+    int new_x = static_cast<int>(snake.getHead_x());
+    int new_y = static_cast<int>(snake.getHead_y());
+
+    // Lock the food resources before using them [CC]
+    // std::unique_lock<std::mutex> lckFood(_mtxFood);  
+    // std::unique_lock<std::mutex> lckRedFood(_mtxRedFood);
+    // std::unique_lock<std::mutex> lckRenderRed(_mtxRenderRed);
+
+    if(containsFood(new_x, new_y)){
+        score++;
+        snake.GrowBody();
+        snake.increaseSpeed(0.02);
+        PlaceFood();
+
+        //If score is a multiple of 5, add a red food
+        if(score > 0 && score%5==0){
+          PlaceRedFood(); 
+          renderRed = true;
+        }
+        
+        
     }else if(containsRedFood(new_x, new_y)){
       score++;
       snake.GrowBody();
-      snake.decreaseSpeed(0.02);
+      snake.decreaseSpeed(0.02); // If consumed a red food then slow down
       renderRed = false;
 
-      //place red food out of frame/grid
+      // Place red food out of frame/grid
       redFood.x =34;
       redFood.y =34;
     }
+    
+    // Unlock resources after done using them
+    // lckRenderRed.unlock();
+    // lckFood.unlock();
+    // lckRedFood.unlock();
+    lckSnake.unlock();
+
+    frame_end = SDL_GetTicks();
+    frame_duration = frame_end - frame_start;
+
+    // Delay loop to achieve desired frame duration
+    if(frame_duration < desired_frame_duration){
+      SDL_Delay(desired_frame_duration - frame_duration);
+    }
+    
+  }
 }
 
 int Game::GetScore() const { return score; }

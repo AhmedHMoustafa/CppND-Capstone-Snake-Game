@@ -6,20 +6,30 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "ThreadObject.h"
 
-class Game {
+class Game : public ThreadObject {
  public:
+
   Game(std::size_t grid_width, std::size_t grid_height);
-  void Run(Controller const &controller, Renderer &renderer,
+
+  void Run(Controller &controller, Renderer &renderer,
            std::size_t target_frame_duration);
+
+
+  // Updates game status in a thread [CC]
+  void runThread() override;
+
   int GetScore() const;
   int GetSize() const;
 
  private:
-  Snake snake;
+  // Snake snake;
   SDL_Point food;
   SDL_Point redFood;
-  bool renderRed;
+  bool renderRed; // Flag to check when to render the redfood
+  // bool running{true}; // Flag for game is still running
+  // std::size_t desired_frame_duration;
 
   std::random_device dev;
   std::mt19937 engine;
